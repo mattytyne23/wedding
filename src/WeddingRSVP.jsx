@@ -51,7 +51,6 @@ export default function WeddingRSVP(props) {
   }, [response]);
 
   useEffect(() => {
-    console.log(P)
       console.log(props.name)
       const result = PEOPLE.find(({ name }) => name === "carl");
       console.log(result)
