@@ -57,12 +57,13 @@ export default function WeddingRSVP(props) {
   }, []);
 
   const handleSubmit = async (e) => {
+    console.log('ddsd')
     e.preventDefault();
-  
+    const API_URL = process.env.REACT_APP_API_URL;
     const rsvpData = { name, song, response, drinksChoice, starter, main, dessert, allgeriesText };
   
     try {
-      const res = await fetch("http://localhost:8080/api/rsvps", {
+      const res = await fetch("${API_URL}/api/rsvps", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(rsvpData),
@@ -113,13 +114,21 @@ export default function WeddingRSVP(props) {
   </div>
 
     <br/><br/>
+
         {progress && ((
           <>
           <form onSubmit={handleSubmit} className="form">
+
           {response === "yes" ? 
           <>
           Would you like a alcoholic or non-alcoholic drink for the toast and wedding breakfast?
-
+          <button
+            type="submit"
+            disabled={!response}
+            className={`btn ${!response ? "disabled" : ""}`}
+          >
+            Send
+          </button>
           <button
             type="button"
             onClick={() => setDrinkChoice('alcoholic')}
@@ -225,15 +234,9 @@ export default function WeddingRSVP(props) {
 
           : <></>}
 
-          {response === 'no' && ((
-          <button
-            type="submit"
-            disabled={!response}
-            className={`btn ${!response ? "disabled" : ""}`}
-          >
-            Send
-          </button>
-          ))}
+
+
+
 
         </form>
           </>
