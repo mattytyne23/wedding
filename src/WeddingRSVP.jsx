@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./WeddingRSVP.css";
-import Header from "./components/Header/Header";
-import Details from "./components/Details/Details";
-import Button from "./components/Button/Button";
 import { DESSERTS, MAINS, STARTERS } from "./foodOptions";
-import { PEOPLE } from "./nameOptions";
 
-export default function WeddingRSVP(props) {
-  const [name, setName] = useState("");
+export default function WeddingRSVP({name, numberOfGuests, response, progress}) {
   const [song, setSong] = useState("");
-  const [response, setResponse] = useState(null);
   const [drinksChoice, setDrinkChoice] = useState("");
   const [starter, setStarter] = useState("");
   const [main, setMain] = useState("");
@@ -17,7 +11,7 @@ export default function WeddingRSVP(props) {
   const [allergies, setAllergiesQ] = useState("")
   const [allgeriesText, setAllergiesText] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [progress, setProgress] = useState(false)
+
 
   const handleStarterChange = (e) => {
     setStarter(e.target.value);
@@ -34,27 +28,6 @@ export default function WeddingRSVP(props) {
   const handleAllergiesChange = (e) => {
     setAllergiesText(e.target.value);
   }
-
-  const handleYesResponse = () => {
-    
-    setResponse("yes")
-    setProgress(true)
-    
-  }
-
-  useEffect(() => {
-    window.scroll({
-      top: 600,
-      left: 0,
-      behavior: 'smooth'
-    });
-  }, [response]);
-
-  useEffect(() => {
-      console.log(props.name)
-      const result = PEOPLE.find(({ name }) => name === "carl");
-      console.log(result)
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,55 +53,25 @@ export default function WeddingRSVP(props) {
   };
 
   return (
-    <div className={`${response === null ? "container" : "container container-extra"}`}>
-      <div className="card">
-        <Header/>
+    <>
 
-        <Details/>
+      {response === "no" && (
+      <button
+        onClick={handleSubmit}
+        type="submit"
+        className={`btn ${!response ? "disabled" : ""}`}
+      >
+       Send
+      </button>
+      )}
 
-        <hr/>
 
-
-        <img src="shotton.jpeg" alt="shotton" />
-        
-        <hr/>
-        <br/>
-
-        <div className="button-group">
-    <button
-      type="button"
-      onClick={() => handleYesResponse()}
-      className={`btn ${response === "yes" ? "btn-active" : ""}`}
-    >
-      Accept 🎉
-    </button>
-
-    <button
-      type="button"
-      onClick={() => setResponse("no")}
-      className={`btn ${response === "no" ? "btn-active" : ""}`}
-    >
-      Decline 💔
-    </button>
-  </div>
-
-    <br/><br/>
-
-        {progress && ((
-          <>
-          <form onSubmit={handleSubmit} className="form">
-
-          {response === "yes" ? 
+        <>
+        <form onSubmit={handleSubmit} className="form">
+          <h1 className="heading">{name}</h1>
           <>
           Would you like a alcoholic or non-alcoholic drink for the toast and wedding breakfast?
-          <button
-            onClick={handleSubmit}
-            type="submit"
-            disabled={!response}
-            className={`btn ${!response ? "disabled" : ""}`}
-          >
-            Send
-          </button>
+
           <button
             type="button"
             onClick={() => setDrinkChoice('alcoholic')}
@@ -144,6 +87,7 @@ export default function WeddingRSVP(props) {
             >
               Non-alcoholic 
           </button>
+
           <h2>Food Choices</h2>
           <h3>Starters:</h3>
 
@@ -232,17 +176,16 @@ export default function WeddingRSVP(props) {
           />     
           </>
 
-          : <></>}
-
-
-
-
+          <button
+            onClick={handleSubmit}
+            type="submit"
+            className={`btn ${!response ? "disabled" : ""}`}
+          >
+            Send
+          </button>
 
         </form>
           </>
-        ))}
-
-      </div>
-    </div>
+        </>
   );
 }
