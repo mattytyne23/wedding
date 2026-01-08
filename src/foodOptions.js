@@ -33,3 +33,12 @@ export const DESSERTS = [
         name: "Raspberry Cheesecake, Prosecco Jelly, Raspberry Gel (v)"
     }
 ]
+
+export const DRINKS_CHOICE = [
+    {
+        name: "Alcoholic"
+    },
+    {
+        name: "Non-alcoholic"
+    }
+]

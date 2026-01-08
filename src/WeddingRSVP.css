@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Georgia, serif;
-  background-color: #15467A;
+  background-color: #c7829a;
 }
 
 img {
@@ -32,7 +32,6 @@ img {
 .heading {
   font-size: 2rem;
   font-weight: bold;
-  color: #d6336c;
   margin-bottom: 0.5rem;
 }
 
@@ -44,7 +43,7 @@ img {
 .title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #d6336c;
+  color: #15467A;
   margin-bottom: 1rem;
 }
 
@@ -66,8 +65,21 @@ img {
 .option {
   margin-bottom: 20px;
   padding: 20px;
-  border: 1px solid #15467A;
+  border: 1px solid #c7829a;
   cursor: pointer;
+}
+
+.option label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.otpion label:hover {
+  background-color: #c7829a;;
 }
 
 .input {
@@ -88,19 +100,19 @@ img {
   color: black;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  border: 1px solid #15467A;
+  border: 1px solid #c7829a;
   font-weight: bold;
   font-size: 16px;
   width: 100%;
 }
 
 .btn:hover {
-  background-color: #15467A;
+  background-color: #c7829a;
   color: #fff;
 }
 
 .btn-active {
-  background-color: #15467A;
+  background-color: #c7829a;
   color: white;
   border: none;
 }
@@ -123,4 +135,48 @@ img {
 .submit-btn.disabled {
   background-color: #adb5bd;
   cursor: not-allowed;
+}
+
+
+.guest-name {
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.guest-name.done {
+  font-weight: bold;
+  color: green;
+}
+
+.checkmark {
+  margin-left: 6px;
+  font-size: 1.2rem;
+}
+
+textarea {
+    color: #c7829a;
+    border: 1px solid #c7829a;
+    font-weight: bold;
+    font-size: 16px;
+    width: 100%;
+}
+
+#song {
+  width: 90%;
+  border: 1px solid #c7829a;
+  color: #c7829a;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 0px;
+}
+
+#song:focus {
+  border: 1px solid #c7829a;
+}
+
+#submit-rsvp {
+  background-color: #c7829a !important;
+  color: #fff;
+  margin-top: 20px;
 }
