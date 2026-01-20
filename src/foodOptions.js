@@ -15,10 +15,10 @@ export const MAINS = [
         name: "Mediterranean Tart, Feta Cheese, Cherry Tomato Compote, Balsamic Glaze (v)"
     },
     {
-        name: "Chicken Supreme, Black Pudding Spring Roll, Red Cabbage Puree, Fondant Potato, Whiskey Jus"
+        name: "British Topside of Beef, Red Wine Gravy - Served with Yorkshire Pudding, Roasted Root Vegetables & Fondant Potato"
     },
     {
-        name: "Braised Daube of Beef, Glazed Roasted Root Vegetables, White Onion Puree, Fondant Potato, Thyme Jus (GF)"
+        name: "Oven Roasted Chicken Supreme, Thyme Jus - Served with Yorkshire Pudding, Roasted Root Vegetables & Fondant Potato"
     }
 ]
 

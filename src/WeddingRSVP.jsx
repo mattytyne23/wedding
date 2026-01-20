@@ -9,7 +9,6 @@ export default function WeddingRSVP({name, numberOfGuests, response, progress, s
   const [main, setMain] = useState(existingChoices.main || "");
   const [dessert, setDesert] = useState(existingChoices.dessert || "");
   const [allgeriesText, setAllergiesText] = useState(existingChoices.allergies || "");
-  const [responseStateValue, setResponseStateValue] = useState()
 
 const [choices, setChoices] = useState({
   response: null,
@@ -19,7 +18,7 @@ const [choices, setChoices] = useState({
   main: "",
   dessert: "",
   allergies: false,
-  allergiesText: ""
+  allergiesText: "",
 });
 
   const handleResponseChange = (e) => {
@@ -82,9 +81,8 @@ const handleFinish = () => {
       allergies: allgeriesText,
       drinksChoice: choices.drinksChoice,
       song,
-      response: choices.response
+      response: choices.response,
     };
-    console.log(personOption)
     setPersonChoices(personOption);
   }
   
@@ -95,7 +93,7 @@ const handleFinish = () => {
   return (
     <>
 
-      <h2>Will you be attending {name}?</h2>
+      <h2>Will you be attending {name?.toUpperCase()}?</h2>
         {error && (
           <p style={{color: 'red'}}>Please make sure all fields marked * are filled in</p>
         )} 
@@ -119,6 +117,11 @@ const handleFinish = () => {
                NO
             </label>
           </div>
+          {choices.response === false && (
+            <><p>Would you prefer to a evening invite only? If so please let one of us know</p>
+
+          </>
+          )}
       {choices.response && (
         <>
           <h4>Would you like a alcoholic or non-alcoholic drink for the toast and wedding breakfast?</h4>
@@ -202,7 +205,7 @@ const handleFinish = () => {
 
 
 
-          <h3>Any Allergies? If not leave blank</h3>
+          <h3>Any Allergies? Or any other dietry requirements, or specific requests regarding one of the food choices above.</h3>
           <textarea placeholder="" onChange={handleAllergiesChange}/>
           <br/>
           <h3>We would like you to choose a song to add to our evening playlist</h3>

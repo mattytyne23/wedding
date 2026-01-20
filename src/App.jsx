@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function App() {
   const navigate = useNavigate();
   const [guestChoices, setGuestChoices] = useState({});
+  const [arrayTest, setArrayTest] = useState([]);
     const [names, setNames] = useState([]);
     const [response, setResponse] = useState(null);
     const [progress, setProgress] = useState(false)
@@ -28,6 +29,8 @@ export default function App() {
   const [didTimerEnd, setDidTimerEnd] = useState(false);
   const [childrenAnswer, setChildrenAnswer] = useState('');
   const [RSVPSuccess, setRSVPSubmittedSuccess] = useState(null)
+  const [complete, setComplete] = useState(false)
+  const [dataResponses, setDataResponses] = useState()
 
   const handleYesResponse = () => {
     setResponse("yes")
@@ -44,6 +47,7 @@ export default function App() {
 
   const handleAirMilesChange = (e) => {
     setAirMiles(e.target.value)
+    setComplete(true)
   }
 
   const allGuestsResponded =
@@ -51,7 +55,6 @@ export default function App() {
 
   useEffect(() => {
   if (allGuestsResponded) {
-    console.log('dds')
     setShowQuiz(true);
   }
 }, [allGuestsResponded]);
@@ -62,7 +65,9 @@ export default function App() {
     timer = setTimeout(() => {
       showQuestionTimed(false); // hide the question
       setDidTimerEnd(true);
-      if (childOnInvite.length > 0){
+      if (childOnInvite?.length > 0){
+        setChildrenAnswer('no')
+      } else {
         setChildrenAnswer('no')
       }
     }, 10000); // 20 seconds
@@ -78,7 +83,6 @@ const handleChildrenQuestion = (value) => {
 const handleSubmit = async () => {
   const API_URL = process.env.REACT_APP_API_URL;
   let rsvpArray = Object.values(guestChoices); // ✅ convert guestChoices object to array
-  console.log(guestChoices)
   rsvpArray = rsvpArray.map(obj => ({
     ...obj,
     quizAnswer: airmiles,
@@ -98,6 +102,7 @@ const handleSubmit = async () => {
 
     if (res.ok) {
       setRSVPSubmittedSuccess(true)
+      setDataResponses(res)
       navigate("/info");
       
     } else {
@@ -145,6 +150,7 @@ const anyAccepted = (() => {
               ...prev,
               [personData.name]: personData,
             }));
+           setArrayTest(Object.values(guestChoices));
             setSelectedPerson(null);
           }}
           existingChoices={guestChoices[selectedPerson] || {}}
@@ -179,15 +185,15 @@ const anyAccepted = (() => {
 
           {didTimerEnd && <p>⏰ Time’s up! Thanks for playing!</p>}
         </div>
-          )}
+)}
 
-      {!RSVPSuccess && (
+      {complete && (
         <>
-        {Object.keys(guestChoices).length === numberOfGuestsOnInvite && (childrenAnswer !== '' ) && (
+        
           <div className="submit-container">
             <button id="submit-rsvp" className="btn" onClick={handleSubmit}>SUBMIT RSVP</button>
           </div>
-        )}
+        
         </>
 
       )}
