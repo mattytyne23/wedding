@@ -104,7 +104,7 @@ const handleSubmit = async () => {
       const data = await res.json();
       setRSVPSubmittedSuccess(true)
       setDataResponses(res)
-      const isAttending = rsvpArray.some(rsvp => rsvp.attending === true);
+      const isAttending = rsvpArray.some(rsvp => rsvp.response === true);
       console.log(isAttending)
       if (isAttending) {
         navigate("/info");
@@ -192,18 +192,11 @@ const anyAccepted = (() => {
           {didTimerEnd && <p>⏰ Time’s up! Thanks for playing!</p>}
         </div>
 )}
-
-      {complete || (numberOfGuestsOnInvite === 1 && Object.keys(guestChoices).length !== 0) && (
-        <>
-        
+      {Object.keys(guestChoices).length === numberOfGuestsOnInvite && (
           <div className="submit-container">
             <button id="submit-rsvp" className="btn" onClick={handleSubmit}>SUBMIT RSVP</button>
           </div>
-        
-        </>
-
       )}
-
 
       {RSVPSuccess && (
         <><p>Thank you for responding, we cant wait to see you there!.</p><>
