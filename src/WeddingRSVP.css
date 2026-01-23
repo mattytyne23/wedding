@@ -10,6 +10,10 @@ select {
   font-size: 16px;
 }
 
+.not-done {
+  color: red;
+}
+
 img {
   width: -webkit-fill-available;
 }

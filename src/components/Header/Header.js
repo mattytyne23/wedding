@@ -54,7 +54,7 @@ const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse,
             : <>
             {guestName[0].split(",").map((name, index) => {
               const response = guestChoices?.[name]?.response; 
-
+              console.log(guestChoices)
               return (
                 <p
                   onClick={() => handlePersonClick(name)}
@@ -63,7 +63,7 @@ const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse,
                     response === true ? "done" : response === false ? "not-done" : ""
                   }`}
                 >
-                  { response === null ? 'Proceed ==>' : 'CONFIRMED'}
+                  {response === true ? "done" : response === false ? "CONFIRMED" : "CLICK TO RSVP"}
                 </p>
               );
             })}

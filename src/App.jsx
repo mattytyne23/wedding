@@ -47,7 +47,7 @@ export default function App() {
 
   const handleAirMilesChange = (e) => {
     setAirMiles(e.target.value)
-    setComplete(true)
+    //setComplete(true)
   }
 
   const allGuestsResponded =
@@ -101,10 +101,16 @@ const handleSubmit = async () => {
     });
 
     if (res.ok) {
+      const data = await res.json();
       setRSVPSubmittedSuccess(true)
       setDataResponses(res)
-      navigate("/info");
-      
+      const isAttending = rsvpArray.some(rsvp => rsvp.attending === true);
+      console.log(isAttending)
+      if (isAttending) {
+        navigate("/info");
+      } else {
+        navigate("/declined")
+      }
     } else {
       setRSVPSubmittedSuccess(false)
     }
@@ -187,7 +193,7 @@ const anyAccepted = (() => {
         </div>
 )}
 
-      {complete && (
+      {complete || (numberOfGuestsOnInvite === 1 && Object.keys(guestChoices).length !== 0) && (
         <>
         
           <div className="submit-container">
