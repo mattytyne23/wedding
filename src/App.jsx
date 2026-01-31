@@ -3,6 +3,7 @@ import WeddingRSVP from "./WeddingRSVP";
 import Header from "./components/Header/Header";
 import WeddingDayTimeline from "./components/TImeLine/timeline";
 import { useNavigate } from "react-router-dom";
+import WeddingRSVPNight from "./components/WeddingRSVPNight";
 
 export default function App() {
   const navigate = useNavigate();
@@ -14,14 +15,17 @@ export default function App() {
     const [numberOfGuestsOnInvite, setNumberOfGuests] = useState([]);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const [childOnInvite, setChildrenOnInvite] = useState(false)
+    const [typeInvite, setTypeOfInvite] = useState()
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const allNames = params.getAll('name');
     const numberOfGuestsOnInvite = params.get('number');
     const childrenOnInvite = params.get('children');
+    const typeOfInvite = params.get('type');
     setNames(allNames);
     setNumberOfGuests(Number(numberOfGuestsOnInvite))
     setChildrenOnInvite(childrenOnInvite)
+    setTypeOfInvite(typeOfInvite);
   }, []);
   const [questionTimed, showQuestionTimed] = useState(false);
   const [airmiles, setAirMiles] = useState();
@@ -47,7 +51,6 @@ export default function App() {
 
   const handleAirMilesChange = (e) => {
     setAirMiles(e.target.value)
-    //setComplete(true)
   }
 
   const allGuestsResponded =
@@ -142,10 +145,11 @@ const anyAccepted = (() => {
           guestChoices={guestChoices}
           childOnInvite={childOnInvite}
           setChildrenAnswer={handleChildrenQuestion}
+          type={typeInvite}
         />
       )}
 
-      {(selectedPerson && RSVPSuccess !== true) && (
+      {(selectedPerson && RSVPSuccess !== true && typeInvite !== 'night') && (
         <WeddingRSVP
           name={selectedPerson}
           numberOfGuests={Number(numberOfGuestsOnInvite)}
@@ -163,35 +167,41 @@ const anyAccepted = (() => {
         />
       )}
 
-{showQuiz && !didTimerEnd && anyAccepted && (
-  <>
-    <p>Would you like to take part in our fun quiz? Winner gets Champagne!! 🍾</p>
-    <p>You will only have 20 seconds to answer once you click the button below!</p>
-    <p>Good Luck!</p>
+      {(typeInvite === 'night' && (
+        <WeddingRSVPNight allName={names}/>
+      ))}
 
-    {!questionTimed && (
-      <button onClick={() => showQuestionTimed(true)}>YES!</button>
-    )}
-  </>
-)}
+      {showQuiz && !didTimerEnd && anyAccepted && (
+        <>
+          <p>Would you like to take part in our fun quiz? Winner gets Champagne!! 🍾</p>
+          <p>You will only have 20 seconds to answer once you click the button below!</p>
+          <p>Good Luck!</p>
 
-{questionTimed && (
-        <div className="quiz-section">
-          
-            <div className="quizQuestionContainer">
-              <p>Since Matty & Cherie met, how many air miles have they flown?</p>
-              <input
-                type="number"
-                value={airmiles}
-                onChange={(e) => handleAirMilesChange(e)}
-                className="input"
-              />
-            </div>
+          {!questionTimed && (
+            <button onClick={() => showQuestionTimed(true)}>YES!</button>
+          )}
+        </>
+      )}
+
+      {questionTimed && (
+              <div className="quiz-section">
+                
+                  <div className="quizQuestionContainer">
+                    <p>Since Matty & Cherie met, how many air miles have they flown?</p>
+                    <input
+                      type="number"
+                      value={airmiles}
+                      onChange={(e) => handleAirMilesChange(e)}
+                      className="input"
+                    />
+                  </div>
 
 
-          {didTimerEnd && <p>⏰ Time’s up! Thanks for playing!</p>}
-        </div>
-)}
+                {didTimerEnd && <p>⏰ Time’s up! Thanks for playing!</p>}
+              </div>
+      )}
+
+
       {Object.keys(guestChoices).length === numberOfGuestsOnInvite && (
           <div className="submit-container">
             <button id="submit-rsvp" className="btn" onClick={handleSubmit}>SUBMIT RSVP</button>

@@ -14,6 +14,10 @@ select {
   color: red;
 }
 
+.important {
+  color: red;
+}
+
 img {
   width: -webkit-fill-available;
 }

@@ -1,5 +1,5 @@
 import Details from "../Details/Details";
-const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse, handlePersonClick, guestChoices, childOnInvite, setChildrenAnswer}) => {
+const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse, handlePersonClick, guestChoices, childOnInvite, setChildrenAnswer, type}) => {
     if (!guestName || guestName.length === 0) {
         return <p>No names passed.</p>;
     }
@@ -12,31 +12,36 @@ const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse,
         <>
         <h1 className="heading"> {guestName} You’re Invited!</h1>
         <p>Please RSVP to celebrate our wedding with us!</p>
-        <p>You will also get to choose your food choices for the Wedding Breakfast, song choice for our playlist, and attempt to win a free bottle of champagne!</p> 
-    <Details/> 
+        {type !== 'night' ? 
+        <p>You will also get to choose your food choices for the Wedding Breakfast, song choice for our playlist, and attempt to win a free bottle of champagne!</p>        
+        : <p>You will also get to choose a song choice for our playlist, and attempt to win a free bottle of champagne!</p>
+        }
+
+        <Details/> 
         <hr/>
         <img src="shotton.jpeg" alt="shotton" />
-        <hr/> 
+        <hr/>
+        <h3>Click on each name, and fill out choices from the RSVP form. Ticks or Crosses will show depending on response.</h3><h3>Quiz question will show, and a PINK RSVP button, <span className="important">your response will not be recored untill you click the button.</span></h3><h3>A successful resonse will bring up the order of the day screen.</h3>
+        {type !== 'night' && (
         <div className="button-group">
+          
             {numberOfGuests > 1 ?
                 <div>
-{guestName[0].split(",").map((name, index) => {
-  const response = guestChoices?.[name]?.response; 
+              {guestName[0].split(",").map((name, index) => {
+                const response = guestChoices?.[name]?.response; 
 
-  return (
-    <p
-      onClick={() => handlePersonClick(name)}
-      key={index}
-      className={`guest-name ${
-        response === true ? "done" : response === false ? "not-done" : ""
-      }`}
-    >
-      {name}{" "}
-      {response === true && <span className="checkmark">✔️</span>}
-      {response === false && <span className="cross">❌</span>}
-    </p>
-  );
-})}
+                return (
+                  <><h3
+                    onClick={() => handlePersonClick(name)}
+                    key={index}
+                    className={`guest-name ${response === true ? "done" : response === false ? "not-done" : ""}`}
+                  >
+                    {name}{" "}
+                    {response === true && <span className="checkmark">✔️</span>}
+                    {response === false && <span className="cross">❌</span>}
+                  </h3></>
+                );
+              })}
             {childOnInvite === 'yes' && (
                 <>
                 <h4>All children will have the same food choices</h4><h4>Chicken Goujons, Fries, Peas</h4>
@@ -71,6 +76,8 @@ const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse,
             </>}
 
         </div> 
+        )} 
+
         </>
     )
 }
