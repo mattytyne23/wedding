@@ -21,7 +21,7 @@ const Header = ({guestName, numberOfGuests, handleYesResponse, handleNoResponse,
         <hr/>
         <img src="shotton.jpeg" alt="shotton" />
         <hr/>
-        <h3>Click on each name, and fill out choices from the RSVP form. Ticks or Crosses will show depending on response.</h3><h3>Quiz question will show, and a PINK RSVP button, <span className="important">your response will not be recored untill you click the button.</span></h3><h3>A successful resonse will bring up the order of the day screen.</h3>
+        <h3>Click on each name, and fill out choices from the RSVP form. Ticks or Crosses will show depending on response.</h3><h3>Quiz question will show, and a PINK RSVP button, <span className="important">your response will not be recorded until you click the button.</span></h3><h3>A successful response will bring up the order of the day screen.</h3>
         {type !== 'night' && (
         <div className="button-group">
           
