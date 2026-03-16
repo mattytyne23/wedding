@@ -168,7 +168,7 @@ const anyAccepted = (() => {
       )}
 
       {(typeInvite === 'night' && (
-        <WeddingRSVPNight allName={names}/>
+        <WeddingRSVPNight allNames={names}/>
       ))}
 
       {showQuiz && !didTimerEnd && anyAccepted && (

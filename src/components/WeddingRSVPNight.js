@@ -1,38 +1,89 @@
 import { useState } from "react";
 
-export default function WeddingRSVPNight({}){
-      const [answer, setAnswer] = useState("");
+export default function WeddingRSVPNight({allNames}){
+
+    const [selectedName, setSelectedName] = useState('');
+    const [song, setSongChoice] = useState('');
+    const [answer, setAnswer] = useState("");
     const handleChange = (e) => {
-        console.log(e)
         setAnswer(e.target.value);
+
     }
 
-    const handleSubmit = async () => {
-        const API_URL = process.env.REACT_APP_API_URL;
 
-        try {
-            const res = await fetch(`${API_URL}/api/rsvps/night`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: answer,
-            });
-        } catch (err) {
-            console.error(err);
-            alert("Error submitting RSVP.");
-        }
-    };
+
+const handleSongChange = (e) => {
+  setSongChoice(e.target.value)
+}
+
+const handleSubmit = async () => {
+  const API_URL = process.env.REACT_APP_API_URL;
+
+  const name = allNames[0]
+
+  //let rsvpArray = Object.values(personOption); // ✅ convert guestChoices object to array
+  /*rsvpArray = rsvpArray.map(obj => ({
+    ...obj,
+    quizAnswer: 200,
+    children: null
+  }));*/
+
+  try {
+      const personOption = [{
+    name,
+    starter: null,
+    main: null,
+    dessert: null,
+    allergies: null,
+    drinksChoice: null,
+    song: song,
+    response: answer,
+    }];
+    const res = await fetch(`${API_URL}/api/rsvps/batch`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(personOption),
+    });
+
+    if (res.ok) {
+      console.log(res)
+    } else {
+     // setRSVPSubmittedSuccess(false)
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error submitting RSVP.");
+  }
+};
     return (
-                  <><div className={answer === 'yes' ? "option btn-active" : "option"}>
+                  <>
+        
+          <h3>We would like you to choose a song to add to our evening playlist</h3>
+          <br/>
+          <input
+            id="song"
+            type="text"
+            placeholder="Enter your choice here"
+            value={song}
+            onChange={(e) => handleSongChange(e)}
+            required
+            className="input"
+          /> 
+
+        <div className={answer === 'yes' ? "option btn-active" : "option"}>
             <label htmlFor="yes">
                 <input type="radio" id="yes" name="nightChoice" value="yes" onChange={handleChange} />
-                I would love too!
+                Yes I would love too!
             </label>
-        </div><div className={answer === 'no' ? "option btn-active" : "option"}>
+        </div>
+
+
+        <div className={answer === 'no' ? "option btn-active" : "option"}>
                 <label htmlFor="no">
                     <input type="radio" id="no" name="nightChoice" value="no" onChange={handleChange} />
-                    Sorry i cannot make it 
+                    Sorry I cannot make it 
                 </label>
-            </div>
+        </div>
             
             {answer !== '' && (
             <div className="option btn-active" onClick={handleSubmit}>
