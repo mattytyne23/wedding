@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function WeddingRSVPNight({allNames}){
-
+    const navigate = useNavigate();
     const [selectedName, setSelectedName] = useState('');
     const [song, setSongChoice] = useState('');
     const [answer, setAnswer] = useState("");
@@ -46,9 +47,11 @@ const handleSubmit = async () => {
     });
 
     if (res.ok) {
-      console.log(res)
+      navigate("/success")
     } else {
-     // setRSVPSubmittedSuccess(false)
+      if (res.status === 409){
+        window.alert('Names have already been submitted')
+      }
     }
   } catch (err) {
     console.error(err);
@@ -61,7 +64,7 @@ const handleSubmit = async () => {
           <h3>We would like you to choose a song to add to our evening playlist</h3>
           <br/>
           <input
-            id="song"
+            id="songNight"
             type="text"
             placeholder="Enter your choice here"
             value={song}
@@ -69,7 +72,6 @@ const handleSubmit = async () => {
             required
             className="input"
           /> 
-
         <div className={answer === 'yes' ? "option btn-active" : "option"}>
             <label htmlFor="yes">
                 <input type="radio" id="yes" name="nightChoice" value="yes" onChange={handleChange} />
