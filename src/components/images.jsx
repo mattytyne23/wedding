@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
 export function Images({}) {
-    const [images, setImages] = useState([]);
+const [images, setImages] = useState([]);
 
-    useEffect(() => {
-        console.log('test')
-        fetch("http://localhost:8080/api/images")
-        .then(res => res.json())
-        .then(data => setImages(data));
-    }, []);
+  useEffect(() => {
+    fetch("http://localhost:8080/api/images/grid")
+      .then(res => res.json())
+      .then(data => setImages(data));
+  }, []);
 
-    return (
-        <div>
-        {images.map(img => (
-            <img
-            key={img.public_id}
-            src={img.secure_url}
-            alt=""
-            width="200"
-            />
-        ))}
-        </div>
-    )
+  return (
+    <div className="grid">
+      {images.map((url, index) => (
+        <img key={index} src={url} alt="grid item" />
+      ))}
+    </div>
+  );
 
 }
