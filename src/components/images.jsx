@@ -3,7 +3,8 @@ export function Images({}) {
 const [images, setImages] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SECRET_KEY}/api/images/grid`)
+    const API_URL = process.env.REACT_APP_API_URL;
+    fetch(`${API_URL}/api/images/grid`)
       .then(res => res.json())
       .then(data => setImages(data));
   }, []);
