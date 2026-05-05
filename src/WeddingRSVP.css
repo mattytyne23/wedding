@@ -111,8 +111,8 @@ img {
 
 .btn {
   padding: 20px;
-  background-color: white;
-  color: black;
+  background-color: #c7829a;;
+  color: white;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   border: 1px solid #c7829a;
@@ -122,8 +122,8 @@ img {
 }
 
 .btn:hover {
-  background-color: #c7829a;
-  color: #fff;
+  background-color: white;
+  color: #c7829a;
 }
 
 .btn-active {

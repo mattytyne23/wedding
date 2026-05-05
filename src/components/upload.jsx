@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 export function Upload({}) {
-
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
+
+    const handleClick = () => {
+    fileInputRef.current.click();
+  };
 
 const handleUpload = async () => {
     if (!image) return;
@@ -29,30 +35,46 @@ const uploadImage = async (file) => {
     );
 
     const data = await res.json();
-    return data.secure_url;
+    return navigate("/images");
   } catch (err) {
     console.error("Upload error:", err);
   }
 };
 
  return (
-    <div>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setImage(e.target.files[0])}
-      />
-
-      <button onClick={handleUpload}>
-        {loading ? "Uploading..." : "Upload"}
+    <div className="container">
+      <div className="card">
+        <h2>Add to our wedding album!</h2>
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+          style={{ display: "none" }}
+        />
+      {!image && (
+      <button onClick={handleClick}>
+        Upload Image
       </button>
-
-      {url && (
-        <div>
-          <p>Uploaded image:</p>
-          <img src={url} alt="uploaded" width="300" />
-        </div>
       )}
+
+      
+        <br/><br/>
+        {image && (
+        <button className="btn" onClick={handleUpload}>
+          {loading ? "Uploading..." : "Upload"}
+        </button>
+        )}
+
+
+        {url && (
+          <div>
+            <p>Uploaded image:</p>
+            <img src={url} alt="uploaded" width="200" />
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }
