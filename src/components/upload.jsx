@@ -53,13 +53,13 @@ const uploadImage = async (file) => {
           style={{ display: "none" }}
         />
       {!image && (
-      <button onClick={handleClick}>
-        Upload Image
+      <button className="btn" onClick={handleClick}>
+        Pick image(s)
       </button>
       )}
 
       
-        <br/><br/>
+        <br/>
         {image && (
         <button className="btn" onClick={handleUpload}>
           {loading ? "Uploading..." : "Upload"}
