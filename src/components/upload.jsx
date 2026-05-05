@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 export function Upload({}) {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [image, setImage] = useState(null);
+const [images, setImages] = useState([]);
+const [urls, setUrls] = useState([]);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -12,33 +13,39 @@ export function Upload({}) {
   };
 
 const handleUpload = async () => {
-    if (!image) return;
+  if (images.length === 0) return;
 
-    setLoading(true);
-    const uploadedUrl = await uploadImage(image);
-    setUrl(uploadedUrl);
-    setLoading(false);
-  };
+  setLoading(true);
+
+  try {
+    const uploadedUrls = await Promise.all(
+      images.map((img) => uploadImage(img))
+    );
+
+    setUrls(uploadedUrls);
+    navigate("/images");
+  } catch (err) {
+    console.error(err);
+  }
+
+  setLoading(false);
+};
 
 const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", "dtojs0fca");
 
-  try {
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dtojs0fca/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/dtojs0fca/image/upload",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
-    const data = await res.json();
-    return navigate("/images");
-  } catch (err) {
-    console.error("Upload error:", err);
-  }
+  const data = await res.json();
+  return data.secure_url; // important
 };
 
  return (
@@ -49,22 +56,21 @@ const uploadImage = async (file) => {
           type="file"
           ref={fileInputRef}
           accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
+          multiple
+          onChange={(e) => setImages(Array.from(e.target.files))}
           style={{ display: "none" }}
         />
-      {!image && (
-      <button className="btn" onClick={handleClick}>
-        Pick image(s)
-      </button>
-      )}
+{images.length === 0 && (
+  <button className="btn" onClick={handleClick}>
+    Pick image(s)
+  </button>
+)}
 
-      
-        <br/>
-        {image && (
-        <button className="btn" onClick={handleUpload}>
-          {loading ? "Uploading..." : "Upload"}
-        </button>
-        )}
+{images.length > 0 && (
+  <button className="btn" onClick={handleUpload}>
+    {loading ? "Uploading..." : "Upload"}
+  </button>
+)}
 
 
         {url && (
